@@ -1,0 +1,104 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <!-- Itt megmondjuk, hogy submit esetén melyik function fusson le -->
+      <!-- A #f rész pedig egy hivatkozás (ami simán #f formában, tehát egyenlőség nélkül maga a form htmljét adná vissza, kb mint az useRef) -->
+      <!-- <form (ngSubmit)="onSubmit(f)" #f="ngForm"> -->
+
+      <form (ngSubmit)="onSubmit()" #f="ngForm">
+        <!-- Itt az ngModelGroup jelentése, hogy a submitnél ugye előáll egy objektum a form adatokkal, itt viszont megmondjuk, hogy ez a div (vagyis ahhoz tartozó értékek, jelenleg 2 input ahonnan érték jön) kerüljön egy csoportba. Tehát lényegében mint egy subobject egy objecten belül (átláthatóbb, és így arra is külön feltételeket nézhetünk, pl valid-e) -->
+        <!-- Az #userData rész pedig ugyanúgy működik, mint a fentebbi #f, vagy lentebbi inputnál az #email rész (csak itt ngModelGroup, míg azoknál más) -->
+        <div id="user-data" ngModelGroup="userData" #userData="ngModelGroup">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input
+              type="text"
+              id="username"
+              class="form-control"
+              ngModel
+              name="username"
+              required
+            />
+          </div>
+          <button class="btn btn-default" type="button" (click)="suggestUserName()">
+            Suggest an Username
+          </button>
+          <div class="form-group">
+            <label for="email">Mail</label>
+            <!-- Itt megmondjuk, hogy nem csak required, de email is kell legyen (ezek defaultként megadhatók template driven formoknál, nem kell hozzá semmi) -->
+            <input
+              type="email"
+              id="email"
+              class="form-control"
+              ngModel
+              name="email"
+              required
+              email
+              #email="ngModel"
+            />
+            <!-- Itt az email.valid résznél az email a fentebbi input #email részéből jön -->
+            <span *ngIf="!email.valid && email.touched" class="help-block"
+              >Please enter a valid email!</span
+            >
+          </div>
+        </div>
+        <!-- Ez ugyanúgy mint nem sokkal fentebb az email-es, de itt egy egész modelgroupra (de működésben ugyanaz) -->
+        <p *ngIf="!userData.valid && userData.touched">User data is invalid!</p>
+        <div class="form-group">
+          <label for="secret">Secret Questions</label>
+          <!-- Itt az ngModel résznél property binding-al kezdőértéket adunk a selectnek (a ts-ben lévő defaultQuestion értéke pet, itt pedig az egyik option value pet, onnan az egyezés) -->
+          <!-- Ez a megoldás ugyanúgy működne sima inputoknál is -->
+          <select
+            id="secret"
+            class="form-control"
+            [ngModel]="defaultQuestion"
+            name="secret"
+          >
+            <option value="pet">Your first Pet?</option>
+            <option value="teacher">Your first teacher?</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <textarea
+            class="form-control"
+            name="questionAnswer"
+            rows="3"
+            [(ngModel)]="answer"
+          ></textarea>
+        </div>
+        <!-- Az answer a ts-ben kezdetben üres, itt a fentebbi textareánál 2 way bindinggal (ngModel rész) változik az értéke, ami itt már ki is írható -->
+        <p>Your reply: {{ answer }}</p>
+
+        <!-- Itt radiobuttonra használjuk. Ehhez a ts-ben egy array tartalmazza a lehetőségeket, amin itt forral átmegyünk, és mindre megjelenít egyet -->
+        <!-- Mint a selectnél, itt is lehetne neki egy default értéket adni, ha akarunk -->
+        <div class="radio" *ngFor="let gender of genders">
+          <label
+            ><input
+              type="radio"
+              name="gender"
+              ngModel
+              [value]="gender"
+              required
+            />{{ gender }}</label
+          >
+        </div>
+
+        <!-- Itt a disablednél az f a fentebbi form tagnél lévő #f-re hivatkozik, a valid pedig hogy érvényes-e -->
+        <button class="btn btn-primary" type="submit" [disabled]="!f.valid">
+          Submit
+        </button>
+      </form>
+    </div>
+  </div>
+  <hr>
+  <div *ngIf="submitted" class="row">
+    <div class="col-xs-12">
+      <h3>Your data: </h3>
+      <p>Username: {{user.username}}</p>
+      <p>Mail: {{user.email}}</p>
+      <p>Secret question: Your first {{user.secretQuestion}}</p>
+      <p>Answer: {{user.answer}}</p>
+      <p>Gender: {{user.gender}}</p>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,98 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12">
+      <button class="btn btn-primary" (click)="onlyOdd = !onlyOdd">
+        Only show odd numbers
+      </button>
+      <br /><br />
+      <ul class="list-group">
+        <!-- <div *ngIf="onlyOdd">
+          Lentebb az ngClass inkább csak ismétlés, itt nem lenne rá szükség
+          <li
+            class="list-group-item"
+            *ngFor="let odd of oddNumbers"
+            [ngClass]="{ odd: odd % 2 !== 0 }"
+            [ngStyle]="{
+              backgroundColor: odd % 2 !== 0 ? 'yellow' : 'transparent'
+            }"
+          >
+            {{ odd }}
+          </li>
+        </div>
+        <div *ngIf="!onlyOdd">
+          <li
+            class="list-group-item"
+            *ngFor="let even of evenNumbers"
+            [ngClass]="{ even: even % 2 !== 0 }"
+            [ngStyle]="{
+              backgroundColor: even % 2 !== 0 ? 'yellow' : 'transparent'
+            }"
+          >
+            {{ even }}
+          </li>
+        </div> -->
+
+
+        <!-- Az appUnless-et mi hoztuk létre (abban magyarázom mit csinál) -->
+        <!-- Megadhatnánk * nélkül is, de akkor <ng-template [appUnless]=""></ng-template> formában kellene lennie-->
+        <!-- Emiatt fontos az is, hogy a directiveben appUnless legyen a neve a propertynek, mivel a [appUnless] arra bindol (és akkor is arra a formára konvertálódik, ha így *-al adjuk meg, csak így rövidebb) -->
+         <div *appUnless="onlyOdd">
+          <li
+            class="list-group-item"
+            *ngFor="let odd of oddNumbers"
+            [ngClass]="{ odd: odd % 2 !== 0 }"
+            [ngStyle]="{
+              backgroundColor: odd % 2 !== 0 ? 'yellow' : 'transparent'
+            }"
+          >
+            {{ odd }}
+          </li>
+        </div>
+
+
+        <!-- Itt az ngIf [] között nagyjából ugyanúgy használható, mint a *ngIf (háttérben ugyanaz lesz) -->
+        <!-- Az ng-template kb olyan mint Reactben a fragment? -->
+        <!-- A háttérben tehát a *ngIf átkonvertálódik a <ng-template [ngIf]="" formába (vagyis ng-template fogja körbevenni) -->
+        <ng-template [ngIf]="!onlyOdd">
+          <li
+            class="list-group-item"
+            *ngFor="let even of evenNumbers"
+            [ngClass]="{ even: even % 2 !== 0 }"
+            [ngStyle]="{
+              backgroundColor: even % 2 !== 0 ? 'yellow' : 'transparent'
+            }"
+          >
+            {{ even }}
+          </li>
+        </ng-template>
+
+      </ul>
+      <!-- Az appBasicHighlight és az appBetterHighlightegy custom directivek, amiket mi hoztunk létre (nem volt nehéz) -->
+      <p appBasicHighlight>Style me with basic directive</p>
+
+
+      <!-- <p appBetterHighlight [defaultColor]="'yellow'" [highlightColor]="'red'">Style me with better directive</p> -->
+
+      <!-- Itt azért van [appBetterHighlight], mert a directive fájlban az inputnál aliasként ugyanaz adtuk meg, ahogy a directivere is hivatkozunk (tehát egyben property bindinget is teljesít)-->
+      <!-- Főleg akkor érdemes ha 1 propertyje van amit át akarunk adni, itt most a defaultcolor miatt 2 -->
+
+      <!-- <p [appBetterHighlight]="'red'" [defaultColor]="'yellow'">Style me with better directive</p> -->
+
+      <!-- Ugyanaz mint fentebb, csak a defaultColor nincs [] között, és a "'yellow'" helyett "yellow". Lényegében egy shortcut ha stringet adunk át. -->
+      <p [appBetterHighlight]="'red'" defaultColor="yellow">Style me with better directive</p>
+
+      <ng-template [ngIf]="onlyOdd">
+        <p>Only odd</p>
+      </ng-template>
+
+
+      <!-- Ehhez létrehoztunk a ts-ben egy value nevű propertyt. Itt pedig csak megnézi, hogy mennyi az értéke, ha egyikkel se egyezik meg, akkor a default -->
+      <div [ngSwitch]="value">
+        <p *ngSwitchCase="5">Value is 5</p>
+        <p *ngSwitchCase="10">Value is 10</p>
+        <p *ngSwitchCase="100">Value is 100</p>
+        <p *ngSwitchDefault>Value is default</p>
+      </div>
+    </div>
+  </div>
+</div>

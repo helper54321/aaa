@@ -1,0 +1,34 @@
+<!-- a | lowercase rész egy pipe (kisbetűsre alakítja) (a többi példa szintén)-->
+<!-- Itt stringre csináltuk -->
+<p>{{headerName | lowercase}}</p>
+<p>{{headerName | uppercase}}</p>
+
+<!-- Kimenet: $1,000.00 -->
+<!-- <p>My salary is {{salary | currency}}</p> -->
+
+<!-- ₹1,000.00 -->
+<!-- <p>My salary is {{salary | currency:"INR"}}</p>
+<p>My salary is {{salary | currency:"EUR"}}</p>
+<p>My salary is {{salary | currency:"HUF"}}</p> -->
+
+<!-- Itt 1 = 100%, tehát pl 0.35 = 35% -->
+<!-- A stílus pedig a változó értékét kapja (tehát pl ha colorName red, akkor piros lesz) -->
+<p [style.color]="colorName" [style.font-size]="font">My salary is {{salary | percent}}</p>
+<br>
+
+<button (click)="functionClick('click here')">Click me</button>
+<br>
+
+<!-- Ebben a formában a ténylegesen beírt szöveget adjuk át paraméterként (a #txt rész, majd paraméterként átadása)!!!!!!!!! (ez kelleni fog) -->
+<!-- A [value] rész pedig ténylegesen az input valuenak adja a változó értékét, tehát beírja (fog kelleni!!!!!!!!!!!!!) -->
+<input [value]="isDisabled" [disabled]="isDisabled" #txt type="text" (change)="functionClick(txt.value)">
+<br><br>
+
+<!-- Ebben a formában be is írja a változó értékét az inputba, és módosítás esetén a változó értéke is módosul (tehát az itteni kiírás és a változó értéke is)!!!!!!!!!! -->
+<!-- Ha valahol máshol megjelenítjük a változó értékét, az a kiíratás is automatikusan módosul!!!!!!!!! -->
+<input [(ngModel)]="headerName">
+
+<p [ngClass]="className">Valami</p>
+<p [ngStyle]="styleValue">Valami</p>
+
+<!-- Többi directivet itt kihagytam, úgyis megvan a másikban -->

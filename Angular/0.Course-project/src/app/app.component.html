@@ -1,0 +1,16 @@
+<!-- Ez az event a header.ts-ében van létrehozva -->
+<!-- Később kikommenteltem, mert már route-ot használtunk helyette -->
+<!-- <app-header (featureSelected)="onNavigate($event)"></app-header> -->
+
+<app-header></app-header>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <!-- Korábban kellett, amikor még nem volt router -->
+      <!-- <app-recipes *ngIf="loadedFeature === 'recipe'"></app-recipes>
+      <app-shopping-list *ngIf="loadedFeature !== 'recipe'"></app-shopping-list> -->
+
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

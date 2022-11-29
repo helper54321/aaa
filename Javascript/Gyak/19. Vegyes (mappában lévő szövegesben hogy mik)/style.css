@@ -1,0 +1,37 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.container{
+    width: 85%;
+    margin: auto;
+    /* text-align: center; */
+    font-size: 1.1rem;
+}
+
+form{
+    margin: 100px auto;
+    /* background-color: red; */
+    position: relative;
+    width: 300px;
+}
+
+input, button[type="submit"]{
+    padding: 0.3rem 0.7rem;
+}
+
+input{
+    width: 250px;
+    position: absolute;
+    left: 0;
+}
+
+button{
+    text-transform: uppercase;
+    width: 50px;
+    position: absolute;
+    right: 0;
+}
+

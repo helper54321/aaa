@@ -1,0 +1,16 @@
+@Test
+@Test(expected = NullPointerException.class)
+@Test(timeout = 100)
+@Before
+@After
+@BeforeClass
+@AfterClass
+
+@RunWith(Parameterized.class)
+@Parameters
+
+
+assertEquals("CD", helper.truncateAInFirst2Positions("AACD"));
+assertFalse(helper.areFirstAndLastTwoCharactersTheSame("ABCD"));
+assertTrue(helper.areFirstAndLastTwoCharactersTheSame("ABAB"));
+assertArrayEquals(new int[] {1, 3, 4, 12}, numbers);

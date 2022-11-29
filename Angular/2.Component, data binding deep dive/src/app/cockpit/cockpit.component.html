@@ -1,0 +1,25 @@
+<div class="row">
+    <div class="col-xs-12">
+      <p>Add new Servers or blueprints!</p>
+      <label>Server Name</label>
+      <!-- <input type="text" class="form-control" [(ngModel)]="newServerName"> -->
+
+      <!-- Ennél a megoldásnál, ahol a # rész van létrehozunk egy local referenciát (ami maga az input dom értéke, minden propertyjével együtt) -->
+      <!-- És ennek bármilyen propertyjéhez (pl .value) hozzáférhetünk. Amit akár itt is megjeleníthetünk, vagy ahogy lentebb tesszük a button clickjénél átadjuk paraméterként-->
+      <!-- A fenti kikommentelt is működik, de ott minden keystroke esetén kinyerjük, míg nekünk elég a buttonra kattintás esetén (tehát mind2 ok, de ez hatékonyabb)-->
+      <input type="text" class="form-control" #serverNameInput>
+      <label>Server Content</label>
+
+      <!-- <input type="text" class="form-control" [(ngModel)]="newServerContent"> -->
+
+
+      <input type="text" class="form-control" #serverContentInput>
+      <br>
+      <button
+        class="btn btn-primary"
+        (click)="onAddServer(serverNameInput)">Add Server</button>
+      <button
+        class="btn btn-primary"
+        (click)="onAddBlueprint(serverNameInput)">Add Server Blueprint</button>
+    </div>
+  </div>

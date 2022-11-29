@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Save Employee</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+
+	<div class="container">
+	
+		<h3>Employee Directory</h3>
+		<hr>
+		
+		<p class="h4 mb-4">Save Employee</p>
+		
+		<!-- thymeleaf esetén így működik a form action része -->
+		<!-- a th:object-nél arra az objektumra hivatkozunk amit a controllerben a modellel átadtunk, és aminek az értékeit itt fel fogjuk tölteni -->
+		<form action="#" th:action="@{/employees/save}" th:object="${employee}" method="POST">
+		
+			<!-- A th:field-nél a * jelentése, hogy egy olyan objektumra hivatkozunk, ami fentebb szerepel th:object-el (tehát a modellel átadott objektum, mivel azokra hivatkozunk th:object-el) -->
+			<!--
+				 A hidden input azért kell, hogy update esetén tudjuk melyik objektummal is dolgozunk (anélkül nem tudnánk egyértelműen azonosítani, mivel az a primary key)
+				 Ha ezt nem tennéknk ide, a kód akkoris működne, de akkor beszúrná újra egy új id-val, és mi nem ezt akarjuk 
+			-->
+			<input type="hidden" th:field="*{id}">
+			
+			<input type="text" th:field="*{firstName}" class="form-control mb-4 col-4" placeholder="First name">
+			<input type="text" th:field="*{lastName}" class="form-control mb-4 col-4" placeholder="Last name">
+			<input type="text" th:field="*{email}" class="form-control mb-4 col-4" placeholder="Email">
+			
+			<button type="submit" class="btn btn-info col-2">Save</button>
+		
+		</form>
+		
+		<hr>
+		<a th:href="@{/employees/list}">Back to Employees List</a>
+	
+	
+	</div>
+</body>
+</html>

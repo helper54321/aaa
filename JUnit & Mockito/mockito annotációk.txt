@@ -1,0 +1,5 @@
+@Mock
+@RunWith(MockitoJUnitRunner.class)
+@InjectMocks
+@Captor
+@Rule

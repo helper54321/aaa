@@ -1,0 +1,10 @@
+Inner join: A 2 metszete, tehát a közös rész
+Right join: A 2 metszete, és minden ami a jobb oldaliban szerepel, de nincs hozzátartozó pár a bal oldalon
+Left join: Ugyanaz mint a right, csak a bal oldalra
+Left outer join / Right outer join: Ugyanazok mint a sima left és right, csak így is írható
+Full outer join: A 2 metszete, és a teljes bal , ill. teljes jobb oldal is
+(Self join): Nem tartozik hozzá külön szintaxis, ez csak annyit jelent, hogy egy táblát önmagával kapcsolok össze (bármilyen join használatával) (példa rá a szövegesben)
+Cross join: Ha két táblát úgy kötök össze, hogy nem adok meg kapcsolódási pontot (példa szövegesben)
+Natural join: Ha van egy megegyező nevű foreign-primary key pár a két táblában, akkor használható
+(using): Az usingban azt mondjuk meg, hogy melyik mező szerint kösse össze a 2 táblát (mivel az mind2-ben megtalálható)
+Non-equijoin: Ha egy fix értéket egy tartománnyal akarunk összekötni.

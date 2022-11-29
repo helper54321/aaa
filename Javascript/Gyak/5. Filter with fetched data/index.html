@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container">
+        <form class="form" id="form">
+            <div>
+                <label>Search</label>
+                <input type="text" name="searchBar" class="searchBar" id="searchBar">
+            </div>
+
+            
+            <div>
+                <label>Price</label>
+                <input type="number" name="minPrice" class="price" id="minPrice" placeholder="Min">
+                <input type="number" name="maxPrice" class="price" id="maxPrice" placeholder="Max">
+            </div>
+
+            <div>
+                <h4>Filter:</h4>
+                <label>On Stock</label>
+                <input type="radio" name="filter" value="stock">
+                <label>All</label>
+                <input type="radio" name="filter" value="all" checked>
+            </div>
+
+            <div>
+                <label>Expected transit</label>
+                <input type="number" name="transfer" class="transfer" id="transfer">
+            </div>
+
+            <button type="submit">Search</button>
+        </form>
+
+        <div id="output"></div>
+    </div>
+    
+
+    <script src="main.js"></script>
+</body>
+</html>

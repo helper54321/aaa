@@ -1,0 +1,17 @@
+<div class="row">
+  <div class="col-md-5">
+    <!-- Itt a selectedRecipe = $event rész mehetett volna egy functionba is, de mivel ennyi az egész kód, ezért ok itt is -->
+    <!-- Később kikommenteltem, mert servicevel oldottuk meg -->
+    <!-- <app-recipe-list
+      (recipeWasSelected)="selectedRecipe = $event"
+    ></app-recipe-list> -->
+
+    <!-- <app-recipe-list
+      (recipeWasSelected)="selectedRecipe = $event"
+    ></app-recipe-list> -->
+    <app-recipe-list></app-recipe-list>
+  </div>
+  <div class="col-md-7">
+    <router-outlet></router-outlet>
+  </div>
+</div>

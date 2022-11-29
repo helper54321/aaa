@@ -1,0 +1,27 @@
+public: Bármelyik osztály elérheti
+protected: Az azonos csomagban lévő osztályok, és a leszármazott osztályok érhetik el
+default: Csak az azonos csomagban lévő osztályok érik el
+private: Csak a létrehozó osztály éri el
+
+
+final változó: Értéke konstans, később nem módosítható.
+
+final osztály: Immutable lesz, mint a String vagyis:
+	String s1 = "alma";
+	String s2 = s1;
+	s2 = "körte";
+esetén s1 értéke nem változik meg. Ha final osztályt hozunk létre, az ugyanezt az elvet követi
+Egy final-lal ellátott osztály már nem terjesztethető ki, vagyis tőle már nem tudnak örökölni
+
+final metódus: Ezt a metódust már nem változtathatja meg a leszármazott (nem lehet overridolni)
+            Nyílván finallal ellátott osztály esetén nincs értelme, mert az már úgysem terheszthető ki
+
+static metódus: Eléréséhez nem szükséges objektumot létrehozni, hanem osztálynévvel hivatkozhatok rá
+		Akkor van értelme, ha tudjuk hogy ez olyan metódus, amit később úgysem fogunk felülírni, tehát minden objektumra ugyanúgy működhet
+
+static változó: Nem jön létre külön minden objektumnál, hanem csak 1x, és minden objektum azon osztozik 
+	(ezzel pl megszámolható, hogy hányszor példányosítottunk egy osztályt)
+	(csak növelnünk kell az értékét mindenféle konstruktorban)
+
+
+static osztály: Nem lehetséges, csak inner class esetén.

@@ -1,0 +1,19 @@
+select max(sal) from emp; //A legnagyobb sal értéket adja vissza
+select min(sal) from emp; //Minimum
+select sum(sal) from emp; //Összegük
+select max(sal) from emp where job = 'MANAGER';
+select trunc(avg(sal), 2) from emp; //Azért raktam trunc-ba hogy csak 2 tizedes pontossággal adja vissza
+
+select count(*) from emp; //Megszámolja hogy hány rekord van a táblában
+select count(comm) from emp; //Megszámolja hány helyen van érték adva a comm mezőnek (tehát ahol null van, azt nem számolja bele)
+select sum(sal) / count(*) from emp; //Ez is az átlagot adja vissza, csak máshogy értük el
+
+select job, to_char(avg(sal), '$9999.99') from emp group by job; //job-onként adja vissza (tehát minden job típusra külön)
+select job, count(*) from emp group by job; //Visszaadja hogy job típusonként melyikből mennyi van
+
+Where után (tehát szűrésnél) single row functionok megengedettek, group functionok (pl group by, min, max, avg) nem!!!!! Group by-nál történő szűréshez a where helyett a having-et használhatjuk
+select job, count(*) from emp group by job having count(*) = 2; //Grouping function esetén így tudunk szűrni (lényegében ugyanaz mint a where, de az nem megengedett grouping functionok-nál). Így csak azt adja vissza amelyik job típusnál 2 employee van (mivel group by-al csoportonként számoltuk meg, így a having is arra vonatkozik)
+select deptno from emp group by deptno having count(*) > 3 order by deptno; //Visszaadja azokat a deptno-kat, amelyikekben 3-nál több employee van
+select job, deptno, count(*) from emp group by job, deptno; //Így 2 feltételre is csoportosít (a 2 együtt lesz a csoportosítás feltétele, nem egymás után csoportosít mind2-re), tehát minden jobon belül megkülönbözteti a különböző deptno-kat is, így azt adja vissza hogy melyik job esetén milyen deptno-k vannak, és azokból mennyi. Nagyon leegyszerűsítve ez azt jelenti, hogy azokból készül egy csoport, ahol ugyanabban a sorban a job és a deptno is megegyezik egy másikkal (ilyenkor csak 1x tünteti fel)
+select job, deptno, count(*), sal from emp group by job, deptno; //HIBÁS!!! Mivel a select után van olyan nem grouping function, ami a group by után nincs (ebben az esetben a sal), így a group by után is be kell tenni hogy működjön. Fordítva nem muszáj teljesülnie, lehet olyan a group by-nál ami nincs a select-nél.
+select job, deptno, count(*), sal from emp group by job, deptno, sal; //Így már jó

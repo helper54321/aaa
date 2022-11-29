@@ -1,0 +1,5 @@
+Angular CLI telepítése:
+
+cmd-be:
+
+npm install -g @angular/cli@latest

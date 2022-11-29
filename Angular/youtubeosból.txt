@@ -1,0 +1,30 @@
+Home.html-ben ami kellhet:
+-pipe (talán)
+-input value (kell!!!!!!)
+
+Folytatni: 1:21:00-tól
+
+telepíteni:
+-material ui
+-alertify
+
+1:39:00 körül elmagyarázza az ő backendjének login működését
+
+Login esetén template-driven-form volt
+Register esetén reactive form
+
+Az app componentben van logintól függő linkmegjelenítés!!!!!!!
+
+2:09:30 körül elmagyarázza az ő backendjének register működését
+
+Folytatni: 2:28:30-tól (ott kezdődik az alertify is, ha kell, registernél használtuk a ts-ben)
+
+A header token hozzáadáshoz létrehoztunk egy http interceptort (nem nehéz)
+
+Pagination kezdete: 3:02:30 (kevesebb mint 5 percnyi videó, kódra se sok)
+
+Folytatni: 3:16:00-tól
+
+@input: parent -> child
+@output: child -> parent
+

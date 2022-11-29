@@ -1,0 +1,90 @@
+1.mappa:
+select
+distinct
+where
+and, or
+=, !=, >, >=, <, <=
+in, not in
+between, not between
+is null, is not null
+<> (pl sal <> 3000 esetén, 3000 alatt és felett, de nem pont 3000) (tehát <> ugyanaz mint !=)
+like és %
+as (alias)
+|| (összefűzés)
+order by (asc, desc) (asc-ot nem kell kiírni, mert default)
+
+2.mappa:
+concat
+upper
+lower
+initcap
+length
+substr
+lpad, rpad
+ltrim, rtrim
+round
+trunc (dátumoknál is működik, a másik szövegesben mind2-re van példa) 
+sysdate
+systimestamp
+add_months
+months_between
+to_char
+to_date ******************* (ez még kimaradt)
+nvl (ha az 1. param null, a 2.-at jeleníti meg)
+nullif (ha a 2 param értéke megegyezik, nullt ad vissza)
+
+3.mappa:
+min, max
+sum
+avg
+count
+group by, having
+
+4.mappa:
+inner join
+left join (left outer join)
+right join (right outer join)
+full outer join
+exists, not exists
+(self join)
+cross join
+natural join (Más szintaktikával, de majdnem ugyanaz, mint az inner join. Az egyetlen különbség, hogy inner join esetén az összekötéshez használt (és bármelyik másik is) oszlop 2x jelenik meg, mivel ugye az egyikben primary a másikban foreign key, így mind2x feltünteti. A natural join esetén viszont nem tünteti fel 2x, mivel úgyis ugyanaz, így nem is feltétlenül van értelme. Továbbá, ha van több olyan oszlop is, ahol megegyeznek, akkor azt is csak 1x tünteti fel)
+using
+case
+
+5.mappa:
+over, partition by, order by
+row number, rank, dense rank
+lag, lead
+first_value, last_value
+
+6.mappa:
+create table, create table as
+number, varchar, varchar2, date
+insert into, insert all into
+not null
+constraint
+describe
+alter + modify / alter + rename / alter + add / alter + rebuild
+rename column, to
+update, set
+merge into
+sequence, index, unique index
+delete
+drop
+truncate
+rowid
+synonym
+view
+union, union all (inkább a sima uniont érdemes)
+minus
+grant, revoke, role
+
+
+
+
+
+
+
+
+2.mappa 7.videóban (nagyjából 5 és 10 perc között valahol jobban) precedencia, ami fontos lehet (nem bonyolult, de könnyen félrenézhető)

@@ -1,0 +1,14 @@
+cmd-vel odamenni ahová akarom csinálni és:
+
+ng new my-first-app --no-strict
+
+(my-first-app helyére bármi adható)
+
+kérdések:
+akarok-e routert? először nemet nyomtunk, de amúgy igen
+css verziónál a sima
+
+Ezután létrejött a projekt.
+Cd-vel belemenni és:
+
+ng serve (elindítja a szervert)

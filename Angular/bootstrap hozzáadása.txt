@@ -1,0 +1,5 @@
+npm install --save bootstrap@3
+
+Továbbá az angular.json-ben a styles résznél a css rész elé megadni:
+
+"node_modules/bootstrap/dist/css/bootstrap.min.css",

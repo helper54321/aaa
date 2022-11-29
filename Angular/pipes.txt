@@ -1,0 +1,9 @@
+uppercase: Nagybetűs
+date: Átlátható dátum formátum
+async: Ha async-ként kapott adatot jelenítünk meg
+
+Saját pipe létrehozása:
+
+ng g p filter
+
+filter helyére bármi, az a neve

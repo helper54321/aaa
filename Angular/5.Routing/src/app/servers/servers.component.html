@@ -1,0 +1,37 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-4">
+    <div class="list-group">
+      <!-- A routerlink miatt pl: /servers/5/edit-re megyünk -->
+      <!-- A queryParams miatt még hozzáadunk paramétert, tehát így már: /servers/5/edit?allowEdit=1 -->
+      <!-- Ha több queryParamétert is akarunk, akkor &-al választja el, pl: /servers/5/edit?allowEdit=1&megegy=2 -->
+      <!-- A fragment rész hozzáadásával: /servers/5/edit?allowEdit=1#loading -->
+      <!-- A routerLinknél a server.id az ngFor serveréből jön -->
+      <a
+        [routerLink]="['/servers', server.id]"
+        [queryParams]="{allowEdit: server.id === 3 ? '1': '0'}"
+        fragment="loading"
+        class="list-group-item"
+        *ngFor="let server of servers">
+        {{ server.name }}
+      </a>
+    </div>
+  </div>
+  <div class="col-xs-12 col-sm-4">
+    <!-- Mivel már alapból a /serversen vagyunk, így itt 2 lehetőségünk van: -->
+    <!-- Ez a /servers-re vinne (de már most is ott vagyunk) -->
+    <!-- <a routerLink="/servers">Reload page</a> -->
+    <!-- Ez pedig a /servers/servers-re, tehát hozzáfűzi (de most hibát adna, mert olyan nincs) -->
+    <!-- <a routerLink="servers">Reload page</a> -->
+
+
+
+    <!-- Ide renderelje a child tartalát (az app.module.ts-ben megmondtuk, hogy mik azok) -->
+    <!-- Tehát így egyszerre látszódik a parent is (pl egy menü, az egyes elemekkel), és maga az elem részletei is -->
+    <router-outlet></router-outlet>
+    <!-- <button class="btn btn-primary" (click)="onReload()">Reload Page</button>
+    <app-edit-server></app-edit-server>
+    <hr> -->
+    <!-- <app-server></app-server> -->
+  </div>
+</div>
+

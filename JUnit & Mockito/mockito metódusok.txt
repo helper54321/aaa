@@ -1,0 +1,23 @@
+when(listMock.size()).thenReturn(2);
+when(listMock.size()).thenReturn(2).thenReturn(3);
+when(listMock.get(anyInt())).thenReturn("in28Minutes");
+when(listMock.get(anyInt())).thenThrow(new RuntimeException("Something"));
+
+given(listMock.get(0)).willReturn("in28Minutes");
+
+verify(todoServiceMock, times(1)).deleteTodo("Learn to Dance");
+then(todoServiceMock).should().deleteTodo("Learn to Dance");
+
+verify(todoServiceMock, atLeastOnce()).deleteTodo("Learn to Dance");
+verify(todoServiceMock, atLeast(5)).deleteTodo("Learn to Dance");
+
+verify(todoServiceMock, never()).deleteTodo("Learn Spring MVC");
+then(todoServiceMock).should(never()).deleteTodo("Learn Spring MVC");
+
+ArgumentCaptor<String> stringArgumentCaptor = ArgumentCaptor.forClass(String.class);
+then(todoServiceMock).should().deleteTodo(stringArgumentCaptor.capture());
+assertThat(stringArgumentCaptor.getValue(), is("Learn to Dance"));
+
+ArgumentCaptor<String> stringArgumentCaptor = ArgumentCaptor.forClass(String.class);
+then(todoServiceMock).should(times(2)).deleteTodo(stringArgumentCaptor.capture());
+assertThat(stringArgumentCaptor.getAllValues().size(), is(2));

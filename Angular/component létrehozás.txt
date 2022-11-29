@@ -1,0 +1,8 @@
+Ugyan kézzel is létrehozhatjuk a fájlokat, de az angular cli segítségével van gyorsabb módja is:
+
+ng g c servers
+
+Ahol a servers a component neve (tehát bármi kerülhet oda)
+A g a generate, míg a c a component rövidítése (teljes alakban is írhatnánk)
+
+Ha így hozzuk létre, akkor az app.module.ts-ben a declarationsnál is feltünteti, tehát ott se kell kézzel megadni

@@ -1,0 +1,33 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <input type="text" [(ngModel)]="filteredStatus" />
+      <br />
+      <button class="btn btn-primary" (click)="onAddServer()">AddServer</button>
+      <br /><br />
+
+      <!-- Az async megmondha, hogy async műveletként fog értéket kapni (tehát majd ha visszakapta, addig üresként jeleníti meg) (observables esetén is működik) -->
+      <h2>App status: {{ appStatus | async}}</h2>
+      <hr />
+      <ul class="list-group">
+        <!-- Itt az ngFornál a filter az általunk létrehozott pipe (tehát az már rögtön előszűri a tömböt, így nem minden elemét jeleníti meg, csak azt amire teljesül a filter feltétel) (kb úgy kell értelmezni, mint amikor js-ben filterezünk egy tömböt, és utána akarjuk megjeleníteni) -->
+        <li
+          class="list-group-item"
+          *ngFor="let server of servers | filter: filteredStatus:'status' | sort:'name'"
+          [ngClass]="getStatusClasses(server)"
+        >
+          <span class="badge">
+            {{ server.status }}
+          </span>
+          <!-- A date-nél a : és azutáni rész opcionális, a formátumát adhatjuk meg vele -->
+          <!-- A shorten már egy általunk létrehozott pipe (nagyon egyszerű volt) (a : résszel itt is paramétert adunk neki) -->
+          <!-- Ha töb paramétert akarunk adni, akkor szintén a :-al megtehető, mint a kikommentelt esetnél -->
+          <!-- <strong>{{ server.name | shorten:5:"masikparameter" }}</strong> | {{ server.instanceType | uppercase }} | -->
+          <strong>{{ server.name | shorten: 5 }}</strong> |
+          {{ server.instanceType | uppercase | reverse }} |
+          {{ server.started | date: "fullDate" | uppercase }}
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

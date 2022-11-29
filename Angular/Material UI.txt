@@ -1,0 +1,9 @@
+ng add @angular/material
+
+proceednél: yes
+
+theme: indigo
+
+set up gloabal... : yes
+
+include and enable animations

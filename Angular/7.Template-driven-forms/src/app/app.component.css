@@ -1,0 +1,10 @@
+.container {
+  margin-top: 30px;
+}
+
+/* Az ng-invalid classet angular automatikusan hozzáadja mindenhez, ami nem valid, tehát nekünk nem kell */
+/* Viszont az mindenhez hozzáadja, de mi pl most csak input esetére akarjuk ezt a stílust, így itt meg is mondtuk */
+/* Az ng-touched szintén gyári class, ugyanúgy automatikusan hozzáadja és változtatja az értékét. Itt a szerepe az volt, hogy anélkül már a kezdetben is hozzáadná a red bordert (mivel ugye most az üres form invalid lesz), de mi csak akkor akarjuk, ha már hozzányúlt, ezért a touched rész */
+input.ng-invalid.ng-touched{
+  border: 1px solid red;
+}

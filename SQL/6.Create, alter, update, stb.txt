@@ -1,0 +1,165 @@
+CREATE TABLE stores(
+    store_id number not null,
+    city varchar(50)
+);
+
+CREATE TABLE products(
+    product_id number not null,
+    name varchar(50),
+    product_cost number(5,2), //Összesen 5 hosszúságú lehet, amiből 2 tizedesvessző utáni. Tehát 3 a vessző előtt és 2 utána.
+    product_retail number(5,2),
+    product_type varchar(10),
+    store_id number not null,
+
+    CONSTRAINT product_pk PRIMARY KEY (product_id) //Így mondjuk meg, hogy a product_id mező legyen primary key (a product_pk elnevezéssel nem a primary key-nek, hanem magának a feltételnek adtunk egy nevet)
+);
+
+constraint hp_con foreign key (player_name) references players(player_name)
+
+create table employees as select empno, ename, job, hiredate, sal, comm from emp; //Egy már létező táblát felhasználva létrehozunk egy újat, ami a szerkezetét is átveszi, és a benne lévő értékeket is. Csak azokat a mezőket másolja le, amiket megadunk (tehát nem kötelező az egész táblát lemásolni). Továbbá bármilyen komplex feltételrendszert használhatunk, hogy a megfelelő szerkezetű tábla álljon elő (mivel a lekérés eredménye alapján készül el)
+
+
+INSERT INTO stores (store_id, city) VALUES (1, 'San Francisco');
+insert into products values (1011, '', 4.00, 8.00, 'Clothing', 3); //Mivel sorrendben adom meg az értékeket, és mindet megadom (még ha nullal is), ezért nem szükséges az oszlop nevek felsorolása és utána az értékek. Elég simán az értékeket.
+
+Mindet beilleszti. Akármilyen furcsa is, a select-es rész nem külön van, hanem hozzátartozik a szintaxishoz (legalábbis oracle-ben). Az lényegtelen hogy melyik táblából, de valaminek kell ott lennie.
+INSERT ALL
+    INTO stores (store_id, city) VALUES (4, 'Philadelphia')
+    INTO stores (store_id, city) VALUES (5, 'Boston')
+    INTO stores (store_id, city) VALUES (6, 'Seattle')
+select * from dual;
+
+Ebben a formában az emp táblából veszi az értékeket és beilleszti mindegyiket mind3 táblába (így megadva az emp-ben lévő konkrét értékük kerül átadásra, mivel nincs "" között)
+INSERT ALL
+    INTO dest_tbl_1 (id, name, date_of) values (EMPNO, ENAME, HIREDATE)
+    INTO dest_tbl_2 (id, name, date_of) values (EMPNO, ENAME, HIREDATE)
+    INTO dest_tbl_3 (id, name, date_of) values (EMPNO, ENAME, HIREDATE)
+SELECT empno, ename, hiredate
+FROM emp
+
+//A megadott feltételektől függően szúrja be valamelyikbe. Ahhoz hogy működjön a lentebbi selectnél az a mező is kell, amelyikre feltételt állítunk.
+INSERT ALL
+    when sal <= 1500 then 
+        INTO dest_tbl_1 (id, name, date_of) values (EMPNO, ENAME, HIREDATE)
+    when sal between 1501 and 2500 then 
+        INTO dest_tbl_2 (id, name, date_of) values (EMPNO, ENAME, HIREDATE)
+    else 
+        INTO dest_tbl_3 (id, name, date_of) values (EMPNO, ENAME, HIREDATE)
+SELECT empno, ename, hiredate
+FROM emp
+
+describe emp; //A tábla felépítését adja vissza
+describe product_pk //A products tábla létrehozásánál megadtunk egy constrain-t, amit product_pk-vel neveztünk el. Itt annak a jelentését kérjük le.
+
+alter table products modify name varchar2(50) not null; //Megváltozhatja a létező tábla szerkezetét. FONTOS: Mivel a not null feltételt utólag adjuk hozzá, így nincs garancia arra, hogy nincs olyan  már most a táblában, ahol null. Tehát ha talál ilyet, csak akkor engedi elvégezni a módosítást, ha vagy módosítjuk, hogy ne legyen null vagy töröljük!!! A varchar és a varchar2 ugyanaz, de a varchar2 gyakrabban használatos, és ez az ajánlott (kitudja miért)
+alter table products modify (product_cost number(5,2) not null, product_retail number(5,2) not null); //Ha a táblában egynél több módosítást akarunk, így tehetjük meg
+alter table products rename column name to product_name; //A name oszlop nevét product_name-ra változtatjuk
+alter table employees add store_id number; //Kibővítjük egy új oszloppal. FONTOS: Ha not null feltétellel adjuk hozzá, akkor csak üres tábla esetén lehetséges, mivel a már benne lévőknél mind null lenne alapból, ami nem megengedett!!!
+
+update employees set store_id = 3 where ename in('KING', 'BLAKE', 'CLARK');
+update employees set store_id = 4 where job = upper('analyst');
+
+//Többnyire oracle specifikus
+//Az update és insertnél azért nem mondjuk meg, hogy hová, mert fentebb egyértelművé tettük hogy melyik táblákkal dolgozunk, így tudni fogja anélkül is
+merge into existing_customers c //Hová akarjuk áthelyezni
+using new_customers n //Honnan akarjuk áthelyezni
+on (c.customer_id = n.customer_id) //Mi a feltétel annak eldöntésére, hogy létezik-e már az összefűzés előtt (primary key összehasonlítás kell)
+when matched then update set //Ha már benne van a régi táblában is, akkor csak update kell (de minden egyes értéket, a primary key kivételével (ami úgyis ugyanaz lenne), mivel időközben változhattak)
+    c.first_name = n.first_name,
+    c.last_name = n.last_name,
+    c.address_state = n.address_state,
+    c.email_address = n.email_address
+when not matched then //Ha pedig még nem szerepel, akkor beszúrjuk
+    insert (c.customer_id, c.first_name, c.last_name, c.address_state, c.email_address) 
+    values (n.customer_id, n.first_name, n.last_name, n.address_state, n.email_address);
+
+
+//Ugyanaz mint a fentebbi, csak kiegészítve a delete résszel, ahol megmondjuk, hogy egyezés esetén törölje ki, azt ahol teljesül a feltétel
+merge into existing_customers c
+using new_customers n
+on (c.customer_id = n.customer_id)
+when matched then update set 
+    c.first_name = n.first_name,
+    c.last_name = n.last_name,
+    c.address_state = n.address_state,
+    c.email_address = n.email_address
+delete where c.first_name = 'John'
+when not matched then
+    insert (c.customer_id, c.first_name, c.last_name, c.address_state, c.email_address) 
+    values (n.customer_id, n.first_name, n.last_name, n.address_state, n.email_address);
+
+//Automatikusan növelődő értékű (pl primary key esetén tökéletes)
+create sequence product_seq
+    minvalue 1 //honnan induljon
+    maxvalue 9999999999999999999999 //max lehetséges értéke (nem kötelező megadni, a default is ilyesmi szám körül van)
+    start with 1 //honnan induljon (általában megegyezik a minvalue-val, de nem kötelező)
+    increment by 1 //mennyivel nőjön az értéke
+    cache 20; //A következő 20 értéket eltárolja a cache-ben, így kicsit gyorsabb lesz (nem kötelező, a default is kb ilyesmi) (megadható nocache is)
+
+select product_seq.nextval from dual; //A sequence következőként felvett értékét kérhetjük le (ez a legelején a start with-ként megadott érték lesz, később pedig ahol jár)
+alter sequence product_seq nocache; //Átállítottuk, hogy ne cacheljen, ha alapból cachelt (más értékeit is változtathattuk volna)
+insert into products (product_id, product_name) values (product_seq.nextval, 'whatever'); //Itt egy minta, hogy hogyan használhatjuk a létrehozott sequence-t
+
+delete from dept where deptno = 40;
+delete from dept where dname in ('ACCOUNTING', 'SALES');
+delete from dept; //Mindent kitöröl!!! (viszont ha valahol (egy másik táblában) foreign key-ként használják ennek a táblának a primary key-et (vagyis meg lett adva egy foreign key constraint), akkor nem lehetséges!!) (persze drop-al megszüntethető a constraint, és akkor már engedi)
+A foreign key constraint továbbá azt is biztosítja, hogy ahol megadjuk foreign key-ként az értéket, az ténylegesen létezzen a másik táblában primary key-ként (ha nem, akkor nem is engedi hozzáadni?)
+
+alter table emp drop constraint EMP_MGR_FK; // Töröljük a megadott constrain-t
+drop table dept; //Az egész táblát töröljük
+truncate table emp; //Minden értéket kitöröl a táblából, de a táblát nem törli. Ennél where nem is használható. Gyorsabb mint a delete, de használata után nincs lehetőség a törölt adatok visszaszerzésére
+
+create index emp_name_idx on employees (ename); //Létrehozunk egy emp_name_idx-ként elnevezett indexet, ami az employees table ename mezőit tartalmazza. Ezáltalán sokkal gyorsabban végezhető lekérés arra a mezőre mint alapból (nyílván csak nagy tábla esetén látható a különbség) (úgy kell elképzelni, mint egy könyv tartalomjegyzékét, ha azt megnézzük, onnantól már tudjuk hol kell keresni). Olyan mezőkre érdemes használni, amik fontosak és várhatóan sok lekérés lesz rájuk, mivel ezek sok helyet foglalhatnak az adatbázisban így semmiképpen nem akarjuk minden egyes elemre.
+create index emp_name_job_date_idx on employees (ename, job, hiredate); //Több mezőt is megadhatunk, ilyenkor ezek együttesen fogják alkotni az indexet, tehát nem külön-külön.
+create unique index empno_idx on employees (empno); //Egyedi indexet készít, tehát csak olyan mezőkre használhatjuk aminél nem megengedettek a duplicate értékek (pl primary key)
+drop index emp_name_idx; //Megszüntetjük a megadott nevű indexet
+create index emp_name_job_date_idx on employees (ename, job, hiredate) compute statistics; //Statisztikát készít a megadott mezőkről (részletesebb magyarázat a 11. videó utolsó 4-5 perce körül, de nem nagyon tartalmas)
+create unique index store_id_idx on stores (store_id) compute statistics;
+alter index emp_name_idx rebuild compute statistics; //Ha utólag akarjuk hozzáadni ezt a feltételt
+
+select rowid, store_id, city from stores; //A táblában minden rekordnak van egy rowid-je, ami egyértelműen azonosítja (ez akkor is különböző 2 rekord esetén ha minden értékük megegyezik)
+delete from stores where rowid not in (select min(rowid) from stores group by store_id, city); //Ezen a módon fel tudtuk használni, hogy duplicate értékeket kitöröljünk a táblából. Azért működik, mert mivel minden sornak egyedi a rowid-je, így nyílván a duplicate értékek megkülönböztethetőek. Itt pedig csoportosítottuk őket, és duplicate sorok esetén csak a legkisebb értékű rowid-t kértük le. Ezt használjuk fel arra, hogy megmaradjon, és minden más törlődjön.
+alter table stores add constraint store_id_pk primary key (store_id); //Mivel már minden értéke egyedi volt, így beállíthattuk kulcsként. Ha valamit beállítunk primary key-nek, az indexet is készít róla.
+
+Kevésbé fontos, kezdetben legalábbis mindenképpen, de nem baj ha tudjuk:
+select * from all_tables where rownum < 10; //Ez egy előre elkészített tábla (oracleben), amivel adatokat kérhetünk le az adatbázisunkról
+select * from all_tables where table_name = 'EMPLOYEES' and rownum < 10;
+select * from all_tab_columns where table_name = 'EMPLOYEES'; //Másféle adatokat ad vissza (oszlopokról)
+select * from all_objects where object_type = 'TABLE' and rownum < 50; //táblákról információ
+select * from all_objects where object_type = 'INDEX' and object_name = 'EMP_NAME_IDX'; //indexekről információ
+select * from all_objects where owner = 'WKSP_EHEGECC'; //Minden objektumot visszaad, ami a megadott fél tulajdonában van
+select * from all_objects where owner = 'WKSP_EHEGECC' and object_type = 'TABLE';
+
+create synonym emp_table for employees; //Létrehozunk egy synonym-et, így ezen a néven is lehet hivatkozni a táblára (public synonym is lehetséges, akkor nem csak én hanem minden adatbázis felhasználó tud rá úgy hivatkozni, de az csak annak engedélyezett akinek van rá jogosultsága)
+
+create view managers_v as select * from employees where job = 'MANAGER'; //Egy lekérdezést el tudunk nevezni, és ebből létrehoz egy view-t (nyílván összetett, és várhatóan többször ismétlődő statement esetén érdemes)
+select * from managers_v; //Úgy viselkedik mintha egy tábla lenne!!! Emiatt érdemes jelölni valahogy, mint pl itt _v, hogy meg tudjuk állapítani, hogy ez egy view és nem tábla
+drop view manager_v; //Megszüntethetjük, mint egy táblát
+create view super_employees as select e1.* from employees e1 inner join (select store_id, max(sal) sal from employees group by store_id) e2 on e1.store_id = e2.store_id and e1.sal = e2.sal where ename != 'FORD'; //Itt egy komplexebb példa
+
+select * from super_employees union select * from employees; //A két lekérdezés uniója, tehát mindkettő eredményéből minden (ami mind2-ben van csak 1x szerepel) (természetesen csak akkor működik, ha mind2 lekérdezésnek ugyanaz a felépítése, tehát ugyanazok az oszlopai)
+select * from super_employees union all select * from employees; //Ugyanaz mint a sima union, de itt ami mindkettőben szerepel 2x is jelenik meg (aminek nem sok értelme, tehát inkább a másik verzió kell)
+select * from super_employees minus select * from employees where job = 'SALESMAN'; //Az első lekérdezést kurtítja, tehát abból leszedi azt ami teljesíti a 2. feltételt (így mivel 1 salesman volt az elsőben, azt az 1-et kiveszi, így 1-el kevesebb lesz a teljes eredmény)
+
+//Ha még nem létezik a view elkészíti, ha már van akkor felülírja
+CREATE or replace VIEW super_employees AS
+SELECT e1.*
+FROM EMPLOYEES e1
+INNER JOIN
+    (SELECT store_id, MAX(sal) sal
+    FROM employees
+    GROUP BY store_id) e2
+ON e1.store_id = e2.store_id
+AND e1.sal = e2.sal
+WHERE ename != 'FORD'
+
+grant select on products TO u3; //Az u3 nevű felhasználónak engedélyt adok, hogy a products táblámból lekérdezéseket csinálhasson. Az u3 felhasznló ezután a select * from taz.products (a taz annak a neve aki adta a jogot, ez nyílván csak egy példa) módon tud lekérdezni.
+grant select, update, delete on products TO u3, u4; //Többféle jogot is adok a táblához, és egyszerre 2 felhasználónak is (de pl hozzáadni és a táblát törölni ezután se tudják)
+revoke select, update, delete on products FROM u3, u4; //Visszaveszem az adott jogokat
+
+//A következő 3 sort csak adatbázis admin tudja elvégezni
+create role r1; //Létrehozok egy új role-t (itt még nem tud semmit)
+grant p1, p2, p3 to r1; (hozzáadok új jogokat az új role-hoz) (a p1,p2,stb. helyére pl create, delete, stb helyettesíthetőek be)
+alter user u3 default role r1; //Az u3 nevű felhasználónak odaadom az r1 nevű role-t
+
+show user; //Visszaadja, hogy milyen névvel vagyok bejelentkezve (apex-ben máshogy működik, de alapesetben így kell)

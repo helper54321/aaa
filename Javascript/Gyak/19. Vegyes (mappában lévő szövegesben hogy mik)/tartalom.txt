@@ -1,0 +1,3 @@
+Input mezőben megadható felkiáltójeles parancsok
+2 vagy több gomb együttes lenyomása esetén lefutó eventek
+Substr és Slice összehasonlítás

@@ -1,0 +1,31 @@
+<div class="container">
+  <!-- A () közöttiek custom eventek, mint pl a beépített (click) jelentése onClick -->
+  <!-- A () közöttiek a cockpit ts-ében létrehozott eventek, amik egy parent functiont hívnak meg. Ez az a pont, ahol megmondjuk hogy mi legyen az, továbbá a kapott paramétert is átadjuk -->
+  <app-cockpit
+    (serverCreated)="onServerAdded($event)"
+    (bpCreated)="onBlueprintAdded($event)"
+  ></app-cockpit>
+  <hr />
+  <div class="row">
+    <div class="col-xs-12">
+
+      <button class="btn btn-primary" (click)="onChangeFirst()">Change first component</button>
+      <button class="btn btn-danger" (click)="onDestroyFirst()">Destroy first component</button>
+
+      <!-- Mivel az element nem az app ts fájlához tartozik, hanem az app-serveréhez, így annak a ts-ében kellett az @Input() hogy a parent hozzáférhessen -->
+      <app-server-element
+        *ngFor="let serverElement of serverElements"
+        [srvElement]="serverElement"
+        [name]="serverElement.name"
+        ><p #contentParagraph>
+          <strong *ngIf="serverElement.type === 'server'" style="color: red">{{
+            serverElement.content
+          }}</strong>
+          <em *ngIf="serverElement.type === 'blueprint'">{{
+            serverElement.content
+          }}</em>
+        </p></app-server-element
+      >
+    </div>
+  </div>
+</div>

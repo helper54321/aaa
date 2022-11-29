@@ -1,0 +1,22 @@
+<div class="container">
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <ul class="nav nav-tabs">
+        <!-- A routerLinkActive="active"-el dinamikusan hozzáadjuk az active classt, ha az ehhez tartozó mappingen vagyunk (tehát aktív) (nyílván más classnév is lehet) -->
+        <!-- De mivel alapból nem pontos egyezést néz, tehát pl /servers esetén a /servers és maga a / is aktív lenne (mert az mindennek a része) így annál az egynél kellett a [routerLinkActiveOptions]="{exact: true}" rész-->
+        <li role="presentation" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}"><a routerLink="/">Home</a></li>
+        <li role="presentation" routerLinkActive="active"><a routerLink="/servers">Servers</a></li>
+        <li role="presentation" routerLinkActive="active"><a routerLink="/users">Users</a></li>
+
+        <!-- Ha /users/something lenne, így adhatnánk meg -->
+        <!-- <li role="presentation"><a routerLink="['/users', something]">Users</a></li> -->
+      </ul>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-xs-12 col-sm-10 col-md-8 col-sm-offset-1 col-md-offset-2">
+      <!-- Ezzel megadjuk, hogy ide renderelje az adott path-ez tartozó tartalmat -->
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,80 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    /* color: #333; */
+    background-color: #ddd;
+}
+
+.container{
+    width: 50%;
+    margin: 2rem auto 0 auto;
+    background-color: white;
+}
+
+.selected, .scores{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-bottom: 1.3rem;
+}
+
+.selected h2{
+    margin-top: 1.4rem;
+}
+
+h1{
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.selections{
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    margin-bottom: 2rem;
+}
+
+.btn{
+    color: #333;
+    font-size: 2rem;
+    border: 1px solid green;
+    padding: 1rem 2rem;
+    cursor: pointer;
+}
+
+.btn:hover{
+    background-color: black;
+    color: white;
+}
+
+.scores{
+    font-size: 1.3rem;
+}
+
+#dice{
+    color: black;
+    font-size: 200px;
+    margin-left: 15.5rem;
+}
+
+.hidden{
+    display: none;
+}
+
+.out{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 1.3rem;
+}
+
+.out h3:last-of-type{
+    margin-bottom: 1rem;
+}

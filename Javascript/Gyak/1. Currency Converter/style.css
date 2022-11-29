@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Abel&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: 'Abel', sans-serif;
+    background-color: rgba(52, 68, 51, 0.404);
+}
+
+.container{
+    width: 50%;
+    min-height: 100vh;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    background-color: #111;
+    position: relative;
+}
+
+.container h1{
+    font-size: 4rem;
+    margin-bottom: 1.5rem;
+    color: white;
+    margin-top: 3rem;
+}
+
+.info form{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 1rem;
+    align-items: center;
+    margin-left: -2rem;
+    position: relative;
+    margin-left: 2rem;
+}
+
+.info input{
+    width: 50%;
+    justify-self: end;
+    padding: 0.5rem 1rem;
+    font-size: 1.1rem;
+    box-shadow: 5px #ccc;
+}
+
+.info input:focus, .info select:focus{
+    border: 1px solid red;
+}
+
+.info select{
+    width: 100%;
+    justify-self: center;
+    padding: 0.5rem 1rem;
+    font-size: 1.1rem;
+    color: black;
+    /* text-indent: 1rem; */
+}
+
+/* .info select option[value="usd"]{
+    background-image: url(img/flag-400.png);
+} */
+
+.info button{
+    position: absolute;
+    font-size: 1.1rem;
+    text-align: center;
+    text-transform: uppercase;
+    background: white;
+    min-width: 3rem;
+    align-self: center;
+    margin: 0;
+    right: 20%;
+    padding: 0.5rem 1rem;
+}
+
+.result{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2rem;
+}
+
+.result div:first-child{
+    margin-top: 1.5rem;
+}
+
+.result div{
+    background-color: green;
+    margin: 0.5rem 0;
+    width: 70%;
+    color: white;
+    padding: 1.2rem;
+    border-radius: 10px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 1rem;
+    animation: anim 1s ease-in-out;
+}
+
+.error{
+    color: white;
+    margin: 0 auto 1.5rem;
+    font-size: 1.2rem;
+    background-color: red;
+    padding: 0.5rem;
+    width: 70%;
+}
+
+@keyframes anim{
+    from{
+        opacity: 0;
+    }
+
+    to{
+        opacity: 1;
+    }
+}
+
+.result div h3{
+    justify-self: end;
+}
+
+.result div h2{
+    justify-self: start;
+    font-size: 1.8rem;
+}
+
+.result h3{
+    margin-bottom: 0.7rem;
+    font-size: 1.8rem;
+}
+
+ /* <div>
+                <h2>Forint</h3>
+                <h3 class="eredmeny">111</h3>
+            </div>
+
+            <div>
+                <h2>Amerikai Dollár</h3>
+                <h3 class="eredmeny">111</h3>
+            </div>
+
+            <div>
+                <h2>Angol Font</h3>
+                <h3 class="eredmeny">111</h3>
+            </div>
+
+            <div>
+                <h2>Ausztrál Dollár</h3>
+                <h3 class="eredmeny">111</h3>
+            </div>  */

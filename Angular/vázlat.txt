@@ -1,0 +1,19 @@
+1.my-first-app
+-első és második mappa
+-alapok és property/event binding
+
+2.Component,data binding
+-harmadik mappa
+-parent to child és child to parent értéktovábbítás
+-local references (hasonló az useRef-hez)
+-lifecycle hooks
+
+3.Directives
+-gyári directives és létrehozás
+-hostlistener, hostbinding (nem nehéz)
+
+4.Services, dependency injection
+-Service mint központi tároló (redux féle) (nem nehéz)
+-Nested service
+-Serviceben lévő event, ahhoz kapcsolódó emit és subscribe (nem nehéz)
+-A serviceket inkább úgy kell elképzelni mint react esetén egy slice, nem egy teljes store. Vagyis jó eséllyel több is lesz.

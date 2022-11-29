@@ -1,0 +1,3 @@
+ng g g Guard/auth
+
+kiválasztásnál a canactivate

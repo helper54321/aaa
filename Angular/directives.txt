@@ -1,0 +1,63 @@
+2. mappa videói között vannak:
+
+
+1. ngModel (two way binding)
+
+2. *ngIf: Feltételtől függő megjelenítés, kb mint thymeleafnél a th:if. Példa:
+
+   <p *ngIf="serverCreated">Server was created, server name is {{ serverName }}</p>
+
+   Tehát itt akkor fog megjelenni, ha a ts-ben lévő serverCreated true (lehetne bool-t visszaadó function is)
+
+   A * jelentése (itt kötelező), hogy olyan művelet, ami a DOM felépítését módosítja (tehát vagy megjeleníti vagy nem)
+
+   Itt már if-else résszel (ritkábban használatos, de előfordulhat):
+
+   <p *ngIf="serverCreated; else noServer">Server was created, server name is {{ serverName }}</p>
+   <ng-template #noServer><p>No server was createddddd</p></ng-template>
+
+   Itt az ng-template beépített, az annál megadott #noServer pedig egy "jelölő", amire az ngIf else részében hivatkozunk (tehát akkor jeleníti meg, ha ott az else fut le)
+
+   Ez csak egy szemléltetés volt, ennél a példánál simán lehetett volna az ngIf-nél !serverCreated
+
+3. ngStyle: Feltételtől függő stílushozzáadás, pl az input mező hibája esetén hasznos lehet
+
+   <p [ngStyle]="{backgroundColor: getColor()}">{{"Server"}} with id {{serverId}} is {{getServerStatus()}}</p>
+
+   Itt a getColor() által visszaadott stílust kapja meg
+
+4. ngClass: Hasonló, de itt class hozzáadása van. Itt is lehetne function hívás is.
+
+   <p
+     [ngStyle]="{ backgroundColor: getColor() }"
+     [ngClass]="{online: serverStatus === 'online'}"
+   >
+
+5. ngFor: Dinamikus számszor jelenítsen meg egy bizonyos elementet (mint react-nél a map, amikor végigmegyünk egy tömbön és megjelenítjük a jsx-et)
+
+   <app-server *ngFor="let server of servers"></app-server>
+
+   Ez kb olyan mint egy for ciklus, ahol a server a temp változó a servers pedig a ts-ben lévő tömb
+
+6. ngContent: Átadott html kód megjelenítése. Pl:
+
+   Lényegében kb mint amikor a <sajat><p>valami</p></sajat> között átadunk valamit.
+
+   Mivel a <sajat> nem gyári component, így aközött amit átadunk alapból elveszik.
+
+   Ha meg akarjuk tartani, akkor a <sajat> html-jében (tehát nem ahol használjuk), meg kell adni a <ng-content></ng-content> részt, ahová helyezni akarjuk
+
+   Vagyis ez ugyanaz mint reactnél a props.children
+
+   Főleg akkor hasznos, ha nem mindig ugyanazt a tartalmat akarom átadni
+
+7. ngSwitch: Ugyanaz mint pl java esetén is a switch
+
+   Ehhez létrehoztunk a ts-ben egy value nevű propertyt. Itt pedig csak megnézi, hogy mennyi az értéke, ha egyikkel se egyezik meg, akkor a default
+
+   <div [ngSwitch]="value">
+        <p *ngSwitchCase="5">Value is 5</p>
+        <p *ngSwitchCase="10">Value is 10</p>
+        <p *ngSwitchCase="100">Value is 100</p>
+        <p *ngSwitchDefault>Value is default</p>
+      </div>

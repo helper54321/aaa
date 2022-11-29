@@ -1,0 +1,72 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    background-color: #1628B6;
+}
+
+button{
+    text-decoration: none;
+    cursor: pointer;
+    border: none;
+    outline: none;
+    padding: 0.3rem;
+    background-color: transparent;
+    color: #000;
+    display: inline !important;
+}
+
+button.animation{
+    animation: anim 0.1s ease-in-out;
+    color: red;
+}
+
+@keyframes anim{
+    0%{
+        opacity: 1;
+    }
+
+    50%{
+        opacity: 0;
+    }
+
+    100%{
+        opacity: 1;
+    }
+}
+
+
+
+.container{
+    width: 30%;
+    margin: auto;
+    color: white;
+}
+
+.content{
+    border: 3px solid #8884F1;
+    padding: 1rem 0.3rem;
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.content:last-of-type{
+    margin-bottom: 2rem;
+}
+
+.content h2{
+    display: inline-block !important;
+    /* padding-right: 1rem; */
+    width: 90%;
+}
+
+.content div:first-of-type{
+    padding-bottom: 1rem;
+}
+
+.content div:last-of-type{
+    padding-top: 1rem;
+}

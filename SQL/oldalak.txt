@@ -1,0 +1,14 @@
+https://sqlzoo.net/wiki/SELECT_basics
+
+https://www.w3resource.com/sql-exercises/
+
+https://www.testdome.com/d/sql-interview-questions/17
+
+
+
+Ezek közül néhányat:
+
+SQL JOINS [29 Exercises]
+SQL JOINS on HR Database [27 Exercises]
+JOINS on movie Database [24 Exercises]
+JOINS queries on soccer Database [61 Exercises]

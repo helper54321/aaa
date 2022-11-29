@@ -1,0 +1,45 @@
+select * from dept where deptno  > (select deptno from dept where deptno = 20); //Elég primitív példa, de jól látható. Elsőként végrehajtódik a 2. select, aminek az eredménye egy sima 20-as szám, ez kerül behelyettesítésre a külső select esetén.
+select * from dept where deptno  > (select deptno from dept where deptno = 20) and dname = 'SALES';
+select * from (select * from dept); //Szintén primitív példa, de magáért beszél (először a zárójeles rész fut le)
+select * from emp where deptno = (select deptno from dept where loc = 'CHICAGO'); //Mivel a belső select itt is egy számot ad vissza, ezért használhatjuk ennél a példánál a másikhoz. Ennél a példánál már összekapcsoltunk 2 táblát join nélkül (de nyílván azzal egyszerűbb)
+select * from emp where deptno in (select deptno from dept where deptno in (20,30)) order by deptno; //Mivel itt a belső select eredménye több mint 1 értéket ad vissza, ezért simán = jellel nem tudjuk a külsőnek odaadni, viszont az in miatt a külső select több értéket is kaphat, így ez működik
+select * from emp where deptno in (select deptno, loc, dname from dept where deptno in (20,30)) order by deptno; //HIBÁS!!! Mivel a belső select eredménye nem 1, hanem 3 oszlopból álló sorokat azt vissza, így ezt nem passzolhatjuk át a külső select in-jébe
+select job, ename, (select job from emp) from emp; //HIBÁS!! Mivel a 2. select egy teljes táblát ad vissza, nem csak 1 sort, a külső select viszont azt minden egyes sorra akarja értelmezni, ami nyílván nem lehetséges
+select job, ename, (select job from emp where ename = 'KING') from emp; //Ebben az esetben mivel a belső select csak 1 sort ad vissza eredményként, így ez lehetséges (bár ebben a formában nem sok értelme van)
+
+Az itt következő 4 sor működik és helyes is, de nem ezzel a szintaktikával szokás használni, hanem a lentebb látható inner join a szokásos (de amúgy ugyanaz a 2)
+select emp.ename, emp.job, emp.sal from emp, dept where emp.deptno = dept.deptno and dept.loc = 'DALLAS'; //Azoknál a mezőknél amelyik nem szerepelnek mind2 táblában (pl ename, sal, loc), lehetne táblanév és pont nélkül is hivatkozni rá, de így szebb és pontosabb, és kisebb a hiba esélye
+select e.ename, e.job, e.sal from emp e, dept d where e.deptno = d.deptno and d.loc = 'DALLAS'; //Itt a tábláknak alias-t adtunk, így rövidebben tudunk hivatkozni a mezőkre (viszont ebben az esetben csak aliasnévvel hivatkozhatunk, a rendes névvel történő hibát ad)
+select e.ename, e.job, e.sal from (select * from emp where job in ('MANAGER', 'CLERK')) e, dept d where e.deptno = d.deptno and d.loc = 'DALLAS';
+select e.ename, e.job, e.sal from (select * from emp where job in ('MANAGER', 'CLERK')) e, (select * from dept where loc = 'DALLAS') d where e.deptno = d.deptno; //Így is lehet
+
+select * from emp inner join dept ON emp.deptno = dept.deptno; //Közös rész
+select * from emp right join dept on emp.deptno = dept.deptno; //Közös, és minden ami a dept-ben van, de nincs párja az emp-ben
+select * from emp left join dept on emp.deptno = dept.deptno; //Közös, és minden ami az emp-ben van, de nincs párja a dept-ben (ebben az esetben ugyan minden emp-hez van pár a dept-ben, így ez most meg fog egyezni az inner join-nal, de sokszor nem ez az eset)
+select * from dept left join emp on emp.deptno = dept.deptno; //Itt csak a 2 tábla sorrendje lett felcserélve, de mivel a bal oldalon álló a left, ezért itt a metszeten kívül a másik tábla értékeit adja a fentebbi left join-os példához képest
+select * from dept full outer join emp on emp.deptno = dept.deptno; //Ez már mindent visszaad, a közös részt is, és a 2 különállót is, itt tényleg csak annyit számít hogy melyik táblát írjuk előre, hogy melyik adatait írja előrébb
+select * from (select * from emp where job = 'SALESMAN') e full outer join dept on e.deptno = dept.deptno; //Itt is írhatunk tábla helyett egy query-t ami egy táblát ad vissza, viszont ilyenkor adni kell neki egy alias-t hogy az összekötésnél (meg bárhol máshol) hivatkozni tudjunk rá
+select e.*, d.* from (select * from dept) d left outer join (select * from emp where job = 'SALESMAN') e on e.deptno = d.deptno; //Így megmondhatjuk (mint itt az elején) a selectnél, hogy mind2 táblából mindent kérünk, és a sorrendjüket is mi döntjük el (hiába volt fordított sorrend a join-nál)
+
+select * from emp where exists (select * from emp where job = 'MANAGER'); //Itt a belső selectnek csak annyi jelentősége van, hogy ad-e vissza legalább 1 eredményt, vagy pedig semmit. Ha van, akkor a külső select lefut úgy, mintha az exists ott se lett volna, ha pedig nincs, akkor a külső üres táblát ad eredményként
+select * from emp where NOT exists (select * from emp where job = 'PROGRAMMER'); //Itt mivel not exists van, pont akkor fut le a külső, ha a belső nulla rekordot ad vissza
+select d.* from dept d where exists (select * from emp where emp.deptno = d.deptno);
+select d.* from dept d where not exists (select * from emp where emp.deptno = d.deptno) or loc = 'CHICAGO'; //Azt is visszaadja ahol a not exists rész nem teljesült, de a loc rész igen, mivel or-t írtunk
+
+select e.ename employee, m.ename manager from emp e left join emp m on e.mgr = m.empno; //Self join, mivel a táblát önmagával kapcsolom össze (akkor lehetséges ez ha van 2 olyan táblázat, ami ugyanazt az adatot tartalmazza, de más a jelentése. Itt pl minden employee manager mezője egy másik employee empno mezője)
+select * from emp cross join dept; //Nincs kapcsolódási pont megadva, ilyenkor cross join (oracle specifikus?) (ilyenkor az első tábla minden elemét összeköti a második tábla minden elemével, ami nyílván sok hibás adatot is eredményez) (ebben az esetben 14 és 4 rekordból álló táblák voltak, így 14*4=56 sor áll elő)
+select ename, mgr, loc from emp natural join dept; //A natural join használata akkor lehetséges, ha van egy olyan mező mind2 táblában aminek ugyanaz a neve (az egyikben foreign key, a másikban primary szerepe van), ilyenkor natural join esetén meg se kell mondani hogy kapcsolja össze őket, elvégzi automatikusan és helyesen)
+select ename, mgr, loc from emp inner join dept using(deptno); //Az usingban azt mondjuk meg, hogy melyik mező szerint kösse össze a 2 táblát (mivel az mind2-ben megtalálható) (bármilyen join használható itt) (ha a 2 mező neve nem egyezne meg, akkor az usingban vesszővel elválasztva mondanánk meg)
+
+select e.ename, e.sal,j.grade_level from emp as e inner join job_grade as j on e.sal between j.lowest_sal and j.highest_sal; //Non-equijoin. Mivel nincs 2 olyan mező amit egyértleműen össze tudnánk kötni, az egyikben a sal értékek fix számok, a másikban egy tartomány van minden kategóriára. Ilyen módon elvégezhető a kettő összekötése
+
+select * from emp, dept where emp.deptno(+) = dept.deptno; //Régebbi szintaktika, így nem is olyan fontos, de így csináltunk belőle right joint (akkor minek a bal oldalra tettük a (+)-t? kitudja, de mégis) (ez csak oracle adatbázisnál működik, de lényegtelen is, úgyse használjuk már)
+
+select ename, job, (case job
+    when 'PRESIDENT' then 'Big shot'
+    when 'MANAGER' then 'Decides the pay'
+    when 'ANALYST' then 'Good at math'
+    when 'CLERK' then 'Hard working'
+    else 'No comment'
+    end) as "Comment"
+from emp;   //A feltételeknél is használhatunk and, or, stb-t, hogy több dologtól függjön mit ad vissza

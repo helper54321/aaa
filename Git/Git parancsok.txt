@@ -1,0 +1,80 @@
+//Elõbb kell létrehozni a távoli repot, és utána kell rácsatlakozni
+
+git init: Helyi könyvtár létrehozása (Abba a mappába hozza létre, ahol a cmd-ben éppen vagyunk)
+
+git status: Információ visszaadása a repo tartalmáról (Ha van több repo, akkor is csak arról ad vissza, ahol ezt kiadjuk) (Pl kijelzi ha van olyan a mappában ami nem lett hozzáadva a repohoz)
+
+git add test.txt: Hozzáadja a színpadhoz (de még nincs commitolva, vagyis ilyenkor még nem került be a repoba)
+
+git commit -m "I've added a new file": A színpadon lévõ dolgokat a repoba beteszi (a -m egy plusz paraméter amivel egy üzenetet adhatunk meg, pl hogy min változtattunk és mit)
+
+
+Ezt a 2-õt be kell állítani az elsõ commit elõtt, addig nem fogja engedni
+------------------------------
+git config --global user.email "sandor.okrosi92@gmail.com": Megadom vele az email címemet. (Vagy ha a "" közti rész nélkül írom, akkor csak kiírja a jelenlegit)
+
+git config --global user.name "sanyi": Megadom vele a felhasználónevemet.
+-------------------------------
+
+git add *.txt: Mindent hozzáad a színpadhoz, aminek .txt a vége
+
+git log: Kilistázza, hogy milyen commitok történtek az adott repoba (Ki, mikor és milyen üzenettel) (Felül van a legfrissebb, és lefelé haladva a régebbiek)
+
+git remote add origin https://github.com/okrosi92/GitTest2.git: Hozzákötjük magunkat egy távoli repohoz (az origin nem ennek a neve, csak egy általunk megadott alias, ahogy mi fogunk rá hivatkozni)
+
+git push -u origin master: Minden eddig commitolt dolgot átjuttat a távoli repoba (a -u nem kötelezõ csak opciopnális. Jelentése, hogy megjegyzi, hogy mindig az origin masterbe pusholunk, ezután csak elég git push-ot írni)
+
+git pull origin master: Lehúzza a repo tartalmát
+
+git pull origin master --allow-unrelated-histories: Akkor kellhet, ha van olyan tartalma a távoli reponak, ami nekünk nincs meg és fordítva
+
+git clone https://github.com/okrosi92/GitTest2.git: Magától létrehoz egy lokális repot, és ebbe a mappába teszi annak a tartalmát (ilyenkor nem kell a git init és a git remote add se, ez egyben megcsinálja mindkettõt)
+
+
+A git diff csak addig mûködik, amíg még nincs a színpadon (utána már git diff --staged kell (fájlnév nélkül)) (vagy git diff --cached red.txt (ilyenkor csak ezét az egyét adja meg))
+--------------------------------
+
+git diff HEAD: Megadja, hogy mi a különbség a mostani és a korábbi verzió között (HEAD-et megadva az utolsó commitolás utánival hasonlítja össze)
+
+git diff red.txt: Mi változott az elõzõ verzióhoz képest ebben az egy fájlban
+
+---------------------------------
+
+git add octofamily/octodog.txt: Az octofamily mappában lévõ octodog.txt-t adjuk hozzá
+
+git reset red.txt: Leveszi a színpadról (de a változtatás megmarad)
+
+git checkout -- red.txt: Visszaállítja a fájl tartalmát az utolsó commitolt állapotra (pl ha azóta írtunk bele azokat kitörli) (a módosítás teljesen elveszik)
+
+git branch clean_up: clean_up néven létrehoz egy új branchet (másik szoba)
+
+git branch: Kiírja, hogy milyen branchek vannak és hogy éppen melyiken vagyok
+
+git checkout clean_up: Átvált a clean_up nevû branchre
+
+git rm '*': Mindent kitöröl (óvatosan bánjunk vele)
+
+git rm '*.txt': Minden txt fájlt kitöröl (az almappákból is törli) (és a színpadra fel is teszi a hiányukat) (git commit -m "Minden törlése" esetén már véglegessé válik) (A törlés csak arra a branchre vonatkozik, amelyiken éppen vagyunk!!!)
+
+git merge clean_up: Pl ha most a master branchen vagyunk és kiadjuk ezt a parancsot, akkor a clean_up branch tartalmát hozzáfésüli a masteréhez (Mindent!!!!)
+
+git branch -d clean_up: Törli a clean_up nevû branchet
+
+
+
+
+
+szükség esetén:
+
+https://stackoverflow.com/questions/7438313/pushing-to-git-returning-error-code-403-fatal-http-request-failed
+
+
+
+
+
+
+
+
+
+
+

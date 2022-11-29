@@ -1,0 +1,40 @@
+Query: Amikor valami adatot kérünk le az adatbázistól (nem pedig módosítunk).
+
+select * from emp;
+select job from emp; //ha ugyanaz többször is szerepel, meg is jelenik többször is
+select distinct job from emp; //ismétlődő értékek esetén is csak 1x írja ki (lényegében azt adja hogy milyen típusúak vannak, nem pedig hogy kinek milyen van)
+select * from emp where job = 'MANAGER'; //case-sensitive
+select * from emp where job = 'SALESMAN' and sal = 1600 and comm = 300;
+select * from emp where job != 'SALESMAN';
+select * from emp where job != 'SALESMAN' and sal < 2500;
+select * from emp where comm > sal;
+select * from emp where job != 'MANAGER' and sal > 2500 and deptno = 20;
+select * from emp where job = 'CLERK' or job = 'SALESMAN';
+select ename from emp where job != 'MANAGER' and job != 'SALESMAN' and sal >=2000;
+select ename, hiredate from emp where deptno = 20 or deptno = 30;
+
+select ename, hiredate from emp where deptno in (20,30); (ugyanaz mint a felette lévő sorban, de ez szebb megoldás) (ennek jelentése nem a 20 és 30 közötti tartomány, hanem maga a 2 érték, tehát vagy 20 vagy 30) (természetesen akárhány értéket megadhatok az inhez, nem csak 2-őt) 
+select * from emp where ename in ('KING', 'JONES', 'SCOTT', 'TURNER'); (látható hogy stringek esetén is működik) (ugyanolyan mintha a 4 külön feltételt OR-al adtam volna meg)
+select * from emp where ename not in ('KING', 'JONES', 'SCOTT', 'TURNER'); (minden ami nem tartalmazza a fenti értékeket, tehát a felette lévő ellentéte)
+
+select * from emp where hiredate between '05/01/1981' and '09/28/1981'; //a 2 dátum közöttieket adja vissza (ezeket az értékeket is beleértve)
+select * from emp where sal between 1000 and 2000; //a 2 érték közöttieket (ezeket is beleértve)
+select * from emp where sal NOT between 1000 and 2000; //ami nem a 2 érték között van
+
+select * from emp where comm is null; //minden ahol a comm mező értéke null (tehát nincs megadva) (comm = null nem működik!)
+select * from emp where comm is NOT null; //minden ahol nem üres
+
+select * from emp where (comm is null or comm = 0) and sal between 1101 and 2999 or sal between 3001 and 4999;
+select * from emp where job = 'SALESMAN' and (comm = 300 or comm > 1000);
+
+select * from emp where job like 'S%'; //bármi, ami S-el kezdődik (utána tökmindegy hány és milyen karakterek vannak)
+select * from emp where job like '%GER'; //bármi, ami GER-re végződik (előtte akármi lehet)
+
+select ename as "Employee name", sal as Salary, comm as Commission from emp; //aliast adtunk meg, hogy milyen néven jelenítse meg (az as előtti ahogy eredetileg szerepel, utána ahogy látni akarom) (a legelsőnél azért van "" között mert 1-nél több szóból áll, ilyen esetben kötelező) ("" esetén a kis és nagy betűkre is odafigyel, anélkül viszont akkoris naggyal jeleníti meg ha kicsivel írom)
+
+select 'Hello, my name is ' || ename as "concatenated value" from emp where job = 'MANAGER'; //összefűzi az értékeket, tehát minden esetnél kiírja a || előtti részt mint fix szöveget, majd pedig a || utáni rész a lekérés eredménye (pl: Hello, my name is BLAKE) (mivel ezt az egészet egy oszlopba írja ki, így az oszlop mező neve nemcsak az ename lenne, hanem az is amit elé fűztünk, ezért adtunk hozzá egy alias-t hogy helyette mi legyen)
+select ename || ' makes $' || sal || ' per month' as "Salary" from emp;
+
+select ename, sal from emp order by ename; //növekvő sorrendbe rendezi ename szerint
+select ename, sal from emp order by ename desc; //csökkenő sorrend
+select deptno, sal, ename from emp order by deptno, sal desc; //először a deptno alapján rendezi növekvően, aztán azon belül sal szerint csökkenően (de a korábbi rendezés is megmarad, tehát a 2. szempontnál csak ott lesz rendezés, ahol az 1. szempont szerint megegyeznek)

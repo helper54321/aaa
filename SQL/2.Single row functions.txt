@@ -1,0 +1,44 @@
+select concat('My name is ', ename) as sentence from emp; //Összefűzi és úgy adja vissza
+select upper(ename) as sentence from emp; //Nagybetűssé teszi (mint javában a toUpperCase)
+select upper('hello') from dual; //A dual egy beépített tábla (csak oracleben-e az passz), ami csak 1 eredményt fog adni ha használjuk egy beépített függvénnyel, mint itt is (tesztelési célra alkalmas)
+select lower('HELLO') from dual; //Kisbetűs lesz
+
+select concat(lower(ename), upper(' is the name')) from emp where deptno = 20; //függvényen belül is használhatunk függvényt (itt a concat első paramétere az amit a lower(ename) visszaad) (upper esetén hasonlóan)
+select concat(concat(lower(ename), upper(' is the name')), concat(' and their job is: ', job)) as "function call" from emp where deptno = 20; //itt már nagyon összetett, de így is lehet
+select * from emp where job = lower('MANAGER'); //Látható, hogy a where résznél is használhatóak a függvények
+
+select initcap('my name is sanyi') from dual; //Minden szó legelső betűje lesz nagybetűs
+select length('my name is sanyi') from dual; //Hány betűből áll
+select ename, length(ename) from emp where length(ename) = 6;
+select substr('hello', 2, 2) from dual; //1. paraméter egyértelmű, a 2. hogy honnantól (itt 1-től indexel), a 3. pedig hogy mennyit) (3. paraméter nem kötelező, anélkül a megadott indextől végig visszaadja)
+select lpad('Hello', 10, '&') from dual; //Kiegészíti a megadott stringet, hogy elérje a 2. paraméter hosszúságot, a 3. paraméterként jeleket az elejére téve (3. paraméter nem kötelező, anélkül space-t használ) (ha kisebb számot adunk meg kívánt hossznak mint a string hossza, akkor a végéről levág amennyit kell)
+select rpad('Hello', 10, '&') from dual; //Ugyanaz csak itt a végéhez adja hozzá
+select ltrim('hello', 'he') from dual; //Bal oldalról haladva a 2. paraméterként megadottat levágja (ha nem egyezik meg, akkor nem csinál semmit)
+select ltrim('hhhhhhhhello', 'h') from dual; //Ugyan csak egy h betűt adtunk meg, de mivel jópár karakter van az elején ami az, így nyílván megegyezik a mintával így mindet levágja (lényegében mintha minden karakter levágása esetén megvizsgálni hogy a következő karakterre illik-e a minta, ameddig igen, folytatja)
+select rtrim('hellohhhh', 'het') from dual; //Ugyanaz csak a jobb oldalról nézi
+
+select round(137.928614, 3) from dual; //Kerekíti, a 2. paraméterként megadott pontossággal a tizedesvessző után (2. paraméter nélkül csak az egész részt adja vissza kerekítve)
+select trunc(137.9286140615, 4) from dual; //A tizedesvessző utáni 2. paraméternyi értékkel adja vissza (ha nincs 2. paraméter csak az egész részt) (itt egyik esetben sem kerekít)
+
+select sysdate from dual; //Jelenlegi időt adja vissza ott ahol telepítve van a rendszer (távoli elérés esetén az ottani időt, nem ami itt van) (hónap/nap/év sorrendben)
+select systimestamp from dual; //Több részlettel (de elég ronda formátumban) a jelenlegi idő
+select add_months('02/25/2017', 6) from dual; //A megadott dátumhoz hozzáad 2. paraméternyi hónapot, és azt a dátumot írja ki
+select add_months(sysdate, -13) from dual; //Negatív 2. paraméter esetén visszafelé megy ennyi hónapot
+select round(months_between('06/30/2021', sysdate), 2) from dual; //Mennyi idő van a 2 dátum között hónapokban (rengeteg tizedesjeggyel adja vissza, ezért vettem körbe egy rounddal) (Az 1. dátumból vonja ki a 2.-at, így ha nem negatív értékként akarom visszakapni, az 1. paraméter legyen a későbbi)
+select trunc(systimestamp, 'year') from dual; //Az adott év legelső napját adja vissza (month paraméter esetén a hónapét)
+select ename, hiredate, trunc(hiredate, 'month') from emp where trunc(hiredate, 'year') = '01/01/1982'; //Lényegében megkapjuk hogy kit melyik évben vettek fel (de inkább csak bemutató jellegű, hogy ilyet is lehet, ezt nem így csinálnánk)
+
+select to_char(sysdate, 'yyyy.mm.dd') from dual; //A 2. paraméterként megadott formátumban adja vissza az időt (elemek sorrendje, és az elválasztójel is tetszőleges) (néhány minta hogy hogyan lehet a mappában lévő képen, de van jóval több is, ezek csak a gyakoribbak)
+select to_char(sysdate, 'ddth "of" month, yyyy') from dual; //Az of nem formatting element, ezért raktuk "" közé
+select to_char(sal, '$99,999.99') from emp; //Ilyen formátumban adja vissza a fizetésüket (néhány minta a mappában lévő képen) (ez csak egy minta hogy hogyan nézzen ki, nyílván a megfelelő értékek lesznek feltüntetve) (azért írtunk 99999.99-et mintának mert tudjuk hogy ennél nagyobb értékre nem számítunk (nyílván itt kevesebb is elég lett volna))
+select to_char(sysdate, 'DAY') from dual; //Visszaadja a megadott idő (itt a jelenlegi) esetén, hogy milyen nap van
+
+select to_date('2015-03-07', 'yyyy-mm-dd') from dual; //Egy stringet (mivel ez nem dátum, annak máshogy néz ki a formátuma) egy tényleges data típusra kovertál (megfelelő formátumos kiírással, tehát a 2. paraméter ebben az esetben nem egy minta, hanem csak elmondjuk hogy hogyan értelmezze, és melyik szám mit jelent)
+select add_months(to_date('2015-03-07', 'yyyy-mm-dd'), 6) from dual; //Itt látható hogy a dátummá konvertálás azért jó, mert így használhatóak rá a dátumra vonatkozó függvények (mint itt az add_months)
+select to_date('3 of June, 2012', 'dd "of" month, yyyy') from dual; //Itt látható hogy akármilyen formátumban lehet, ha megmondjuk minden elem jelentését át tudja alakítani
+
+select ename, job, sal, nvl(comm, 0) from emp where empno in(7839, 7698, 7566, 7654); //Az nvl jelentése, hogy ha az 1. paraméter (itt most a comm) értéke null, akkor helyette a 2. paraméterként megadott értéket jeleníti meg
+select ename, job, sal, nvl(to_char(comm), 'No data found') from emp; //Itt azért kellett stringgé konvertálni, mert a comm alapból int, viszont a megjelenítendő mintának stringet adtunk meg, ami nem lehetséges, mert a 2 típusnak egyeznie kell
+
+select ename, length(ename), nullif(length(ename), 5) from emp; //Ha a nullifben lévő 2 paraméter értéke megegyezik, nullt ad vissza
+select ename, length(ename), nvl(nullif(to_char(length(ename)), to_char(5)), 'The words length equals to five') from emp; //Azért kellett mind2-t stringgé alakítani, mert a length(ename) értéke vagy null lesz a nullif miatt, vagy pedig egy int érték, de mivel az nvl túloldalán stringet adunk meg helyettesítéshez ezért a másik paraméternek is stringnek kell lennie
